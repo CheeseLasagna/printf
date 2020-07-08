@@ -1,38 +1,93 @@
 #include "printf.h"
-#include <stdio.h>
 
-void	print_char(int wd, int ps, va_list argptr)
+int		dec_prec(int precision, char *strarg, int len)
 {
-	char c;
-	int fill;
-	
-	fill = 0;
-	c = va_arg(argptr, int);
-	if (!ps)
-		print_space(wd, fill);
-	write (1, &c, 1);
-	if (ps)
-		print_space(wd, fill);
+	if (strarg[0] == '-')
+	{
+		if (precision > len - 1)
+			precision = precision - len + 1;
+		else
+			precision = 0;
+	}
+	else if (precision > len)
+		precision = precision - len;
+	else
+		precision = 0;
+	return (precision);
+}
+void	print_space(int wd, char fill)
+{
+	while (wd)
+	{
+		write(1, &fill, 1);
+		wd--;
+	}
 }
 
-void	print_str(int wd, int pr, int ps, va_list argptr, int strchk)
+void	print_char(struct flags fs, va_list argptr)
+{
+	char c;
+	char fill;
+	
+	fill = ' ';
+	if (fs.wd)
+		fs.wd = fs.wd - 1;	
+	c = va_arg(argptr, int);
+	if (!fs.ps)
+		print_space(fs.wd, fill);
+	write (1, &c, 1);
+	if (fs.ps)
+		print_space(fs.wd, fill);
+}
+
+void	print_str(struct flags fs, va_list argptr, int strchk)
 {
 	char *c;
-	int fill;
+	char fill;
 	int len;
 
-	fill = 0;
+	fill = ' ';
 	c = va_arg(argptr, char *);
 	len = ft_strlen(c);
-	if (pr > len || (pr == 0 && !strchk))
-		pr = len;
-	if (!ps)
-		print_space(wd, fill);
-	while (pr--)
+	if (fs.pr > len || (fs.pr == 0 && !strchk))
+		fs.pr = len;
+	if (fs.wd > fs.pr || fs.wd > len)
 	{
-		write(1, &(*c), 1);
-		c++;
+		if (fs.pr < len)
+			fs.wd = fs.wd - fs.pr;
+		else
+			fs.wd = fs.wd - len;
 	}
-	if (ps)
-		print_space(wd, fill);
+	else
+		fs.wd = 0;
+	if (!fs.ps)
+		print_space(fs.wd, fill);
+	while (fs.pr--)
+		write(1, &(*c++), 1);
+	if (fs.ps)
+		print_space(fs.wd, fill);
+}
+
+void print_adr(struct flags fs, va_list argptr)
+{
+	long unsigned int arg;
+	char *strarg;
+	int len;
+	char fill;
+
+	fill = ' ';
+	arg = va_arg(argptr, long unsigned int);
+	strarg = ft_itoahex(arg, 0);
+	len = ft_strlen(strarg);
+	if (fs.wd > len + 2)
+		fs.wd = fs.wd - len - 2;
+	else
+		fs.wd = 0;
+	if(!fs.ps)
+		print_space(fs.wd, fill);
+	write(1, "0x", 2);
+	write(1, strarg, ft_strlen(strarg));
+	if (fs.ps)
+		print_space(fs.wd, fill);
+	free(strarg);	
 }

@@ -6,49 +6,44 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 17:27:23 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/03 13:01:15 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/07 14:51:59 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "printf.h"
 
-const char *adjust_flags(int wd, int pr, int ps, int sz, va_list argptr, const char *s, int strchk)
+const char *adjust_flags(struct flags fs, va_list argptr, const char *s, int strchk)
 {
 	while (*s != 'c' && *s != 's' && *s != 'p' && *s != 'd' && *s != 'i' &&	*s != 'u' && *s != 'x' && *s != 'X') 
 		s++;
 	if (*s == 'd' || *s == 'i')
-		dec(wd, pr, ps, sz, argptr);	
+		dec(fs, argptr);	
 	else if (*s == 'u')
-		uns(wd, pr, ps, sz, argptr);	
+		uns(fs, argptr);	
 	else if (*s == 'x')
-		hexS(wd, pr, ps, sz, argptr);	
+		hexS(fs, argptr);	
 	else if (*s == 'X')
-		hexB(wd, pr, ps, sz, argptr);	
+		hexB(fs, argptr);	
 	else if (*s == 'c')
-		print_char(wd, ps, argptr);
+		print_char(fs, argptr);
 	else if (*s == 's')
-		print_str(wd, pr, ps, argptr, strchk);
-/*	else if (*s == 'p')
-		smth*/
+		print_str(fs, argptr, strchk);
+	else if (*s == 'p')
+		print_adr(fs, argptr);	
 	return (s);
 }
 
 const char	*get_flags(const char *s, va_list argptr)
 {
-	int width;
-	int precision;
-	int position;
-	int spacezero;
+	struct flags fs;
 	int strchk;
 
 	strchk = 0;
-	spacezero = ft_spacezero(s);
-	position = ft_position(s);
-	width = ft_width(s, argptr);
-	precision = ft_precision(s, argptr, &spacezero, &strchk);
-//	printf("spacezero %d\nprecision %d\nposition %d\nwidth %d\n", spacezero, precision, position, width);
-	s = adjust_flags(width, precision, position, spacezero, argptr, s, strchk);
+	fs.sz = ft_spacezero(s);
+	fs.ps = ft_position(s);
+	fs.wd = ft_width(s, argptr);
+	fs.pr = ft_precision(s, argptr, &fs.sz, &strchk);
+	s = adjust_flags(fs, argptr, s, strchk);
 	return (s);
 }	
 	
@@ -72,14 +67,5 @@ int	ft_printf(const char *s, ...)
 		s++;
 	}
 	va_end(argptr);
-	return (0);
-}
-
-int main(void)
-{
-	char *s = "hello world";
-	char c = 'z';	
-
-	ft_printf("string %.s\ncharacter %c\n", s, c);
 	return (0);
 }

@@ -1,6 +1,6 @@
 #include "printf.h"
 
-int		ft_lenhex(unsigned int n)
+int		ft_lenhex(long unsigned int n)
 {
 	int length;
 	
@@ -14,11 +14,11 @@ int		ft_lenhex(unsigned int n)
 	}
 	return (length);
 }
-char	*ft_itoahex(unsigned int n, int bigsmall)
+char	*ft_itoahex(long unsigned int n, int bigsmall)
 {
 	int len;
 	char *ptr;
-	int y;
+	long unsigned int y;
 
 	len = ft_lenhex(n);
 	if (!(ptr = (char*)malloc(sizeof(char) * (len + 1))))
