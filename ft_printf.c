@@ -6,66 +6,78 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 17:27:23 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/07 14:51:59 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/08 22:23:06 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-const char *adjust_flags(struct flags fs, va_list argptr, const char *s, int strchk)
+const char *adjust_flags(struct flags fs, va_list argptr, const char *s, int *count)
 {
 	while (*s != 'c' && *s != 's' && *s != 'p' && *s != 'd' && *s != 'i' &&	*s != 'u' && *s != 'x' && *s != 'X') 
 		s++;
 	if (*s == 'd' || *s == 'i')
-		dec(fs, argptr);	
+		dec(fs, argptr, count);	
 	else if (*s == 'u')
-		uns(fs, argptr);	
+		uns(fs, argptr, count);	
 	else if (*s == 'x')
-		hexS(fs, argptr);	
+		hexS(fs, argptr, count);	
 	else if (*s == 'X')
-		hexB(fs, argptr);	
+		hexB(fs, argptr, count);	
 	else if (*s == 'c')
-		print_char(fs, argptr);
+		print_char(fs, argptr, count);
 	else if (*s == 's')
-		print_str(fs, argptr, strchk);
+		print_str(fs, argptr, count);
 	else if (*s == 'p')
-		print_adr(fs, argptr);	
+		print_adr(fs, argptr, count);	
 	return (s);
 }
 
-const char	*get_flags(const char *s, va_list argptr)
+const char	*get_flags(const char *s, va_list argptr, int *count)
 {
 	struct flags fs;
-	int strchk;
 
-	strchk = 0;
+	fs.strchk = 0;
 	fs.sz = ft_spacezero(s);
 	fs.ps = ft_position(s);
 	fs.wd = ft_width(s, argptr);
-	fs.pr = ft_precision(s, argptr, &fs.sz, &strchk);
-	s = adjust_flags(fs, argptr, s, strchk);
+	fs.pr = ft_precision(s, argptr, &fs.sz, &fs.strchk);
+	s = adjust_flags(fs, argptr, s, count);
 	return (s);
 }	
-	
+const char *rezat(const char *s, va_list argptr, int *count)
+{
+	if (*s == '%')
+	{
+		write(1, "%", 1);
+		*count = *count + 1;
+	}
+	else
+		s = get_flags(s, argptr, count);
+	return (s);
+}	
+
 int	ft_printf(const char *s, ...)
 {
 	va_list argptr;
+	int count;
 
+	count = 0;
 	va_start(argptr, s);
 	while (*s)
 	{
 		if (*s == '%')
 		{
 			s++;
-			if (*s == '%')
-				write (1, "%", 1);
-			else
-				s = get_flags(s, argptr);
+			s = rezat(s, argptr, &count);
 		}
 		else
+		{
 			write(1, s, 1);
+			count++;
+		}
 		s++;
 	}
 	va_end(argptr);
-	return (0);
+	return (count);
 }

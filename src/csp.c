@@ -24,7 +24,7 @@ void	print_space(int wd, char fill)
 	}
 }
 
-void	print_char(struct flags fs, va_list argptr)
+void	print_char(struct flags fs, va_list argptr, int *count)
 {
 	char c;
 	char fill;
@@ -38,9 +38,10 @@ void	print_char(struct flags fs, va_list argptr)
 	write (1, &c, 1);
 	if (fs.ps)
 		print_space(fs.wd, fill);
+	*count = *count + fs.wd + 1;
 }
 
-void	print_str(struct flags fs, va_list argptr, int strchk)
+void	print_str(struct flags fs, va_list argptr, int *count)
 {
 	char *c;
 	char fill;
@@ -49,7 +50,7 @@ void	print_str(struct flags fs, va_list argptr, int strchk)
 	fill = ' ';
 	c = va_arg(argptr, char *);
 	len = ft_strlen(c);
-	if (fs.pr > len || (fs.pr == 0 && !strchk))
+	if (fs.pr > len || (fs.pr == 0 && !fs.strchk))
 		fs.pr = len;
 	if (fs.wd > fs.pr || fs.wd > len)
 	{
@@ -60,6 +61,7 @@ void	print_str(struct flags fs, va_list argptr, int strchk)
 	}
 	else
 		fs.wd = 0;
+	*count = *count + fs.wd + fs.pr;
 	if (!fs.ps)
 		print_space(fs.wd, fill);
 	while (fs.pr--)
@@ -68,7 +70,7 @@ void	print_str(struct flags fs, va_list argptr, int strchk)
 		print_space(fs.wd, fill);
 }
 
-void print_adr(struct flags fs, va_list argptr)
+void print_adr(struct flags fs, va_list argptr, int *count)
 {
 	long unsigned int arg;
 	char *strarg;
@@ -90,4 +92,5 @@ void print_adr(struct flags fs, va_list argptr)
 	if (fs.ps)
 		print_space(fs.wd, fill);
 	free(strarg);	
+	*count = *count + fs.wd + 2 + len;
 }

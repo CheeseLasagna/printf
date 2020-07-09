@@ -26,7 +26,7 @@ void	combine_fduxX(struct flags fs, char fill, char *strarg)
 		print_space(fs.wd, fill);
 }
 		
-void	dec(struct flags fs, va_list argptr)
+void	dec(struct flags fs, va_list argptr, int *count)
 {
 	int arg;
 	char *strarg;
@@ -48,9 +48,10 @@ void	dec(struct flags fs, va_list argptr)
 		fs.wd = 0;
 	combine_fduxX(fs, fill, strarg);
 	free (strarg);
+	*count = *count + fs.wd + fs.pr + len;
 }	 
 	
-void	uns(struct flags fs, va_list argptr)
+void	uns(struct flags fs, va_list argptr, int *count)
 {
 	unsigned int arg;
 	char *strarg;
@@ -76,9 +77,10 @@ void	uns(struct flags fs, va_list argptr)
 		fs.wd = 0;
 	combine_fduxX(fs, fill, strarg);
 	free (strarg);
+	*count = *count + fs.wd + fs.pr + len;
 }	 
 	
-void	hexB(struct flags fs, va_list argptr)
+void	hexB(struct flags fs, va_list argptr, int *count)
 {
 	unsigned int arg;
 	char *strarg;
@@ -104,9 +106,10 @@ void	hexB(struct flags fs, va_list argptr)
 		fs.wd = 0;
 	combine_fduxX(fs, fill, strarg);
 	free (strarg);
+	*count = *count + fs.wd + fs.pr + len;
 }
 
-void	hexS(struct flags fs, va_list argptr)
+void	hexS(struct flags fs, va_list argptr, int *count)
 {
 	unsigned int arg;
 	char *strarg;
@@ -132,4 +135,5 @@ void	hexS(struct flags fs, va_list argptr)
 		fs.wd = 0;
 	combine_fduxX(fs, fill, strarg);
 	free (strarg);
+	*count = *count + fs.wd + fs.pr + len;
 }	 

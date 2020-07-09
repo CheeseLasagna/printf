@@ -6,7 +6,7 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 20:46:15 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/07 22:16:10 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/08 15:25:21 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ struct flags{
 	int pr;
 	int ps;
 	int sz;
+	int strchk;
 };	
 
 void	ft_putchar_fd(char c, int fd);
@@ -39,15 +40,15 @@ int		ft_precision(const char *s, va_list argptr, int *szptr, int *strchk);
 int		ft_width(const char *s, va_list argptr);
 int		ft_spacezero(const char *s);
 
-void	dec(struct flags fs, va_list argptr);
-void	uns(struct flags fs, va_list argptr);
-void	hexS(struct flags fs, va_list argptr);
-void	hexB(struct flags fs, va_list argptr);
+void	dec(struct flags fs, va_list argptr, int *count);
+void	uns(struct flags fs, va_list argptr, int *count);
+void	hexS(struct flags fs, va_list argptr, int *count);
+void	hexB(struct flags fs, va_list argptr, int *count);
 
-void	print_char(struct flags fs, va_list argptr);
-void	print_str(struct flags fs, va_list argptr, int strchk);
+void	print_char(struct flags fs, va_list argptr, int *count);
+void	print_str(struct flags fs, va_list argptr, int *count);
 void	print_space(int wd, char fill);
-void	print_adr(struct flags fs, va_list argptr);
+void	print_adr(struct flags fs, va_list argptr, int *count);
 int		dec_prec(int precision, char *strarg, int len);
 
 int		ft_printf(const char *s, ...);
