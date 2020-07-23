@@ -1,36 +1,41 @@
-NAME = printf.a
+NAME = libftprintf.a
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra 
 
 SRC = src/calc_flags.c\
 	src/csp.c\
 	src/duxX.c\
-	src/ft_atoi.c\
-	src/ft_strlen.c\
-	src/ft_itoa.c\
-	src/ft_strdup.c\
-	src/ft_memcpy.c\
-	src/ft_itoaun.c\
-	src/ft_itoahex.c
+	src/null.c\
+	ft_printf.c
+
+LIBSRC = libft/ft_atoi.c\
+	libft/ft_strlen.c\
+	libft/ft_itoa.c\
+	libft/ft_strdup.c\
+	libft/ft_memcpy.c\
+	libft/ft_itoaun.c\
+	libft/ft_itoahex.c
 
 OBJ = calc_flags.o\
 	csp.o\
 	duxX.o\
+	null.o\
 	ft_atoi.o\
 	ft_strlen.o\
 	ft_itoa.o\
 	ft_strdup.o\
 	ft_memcpy.o\
 	ft_itoaun.o\
-	ft_itoahex.o
+	ft_itoahex.o\
+	ft_printf.o
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
 
-$(OBJ): $(SRC) printf.h
-	gcc $(FLAGS) -c $(SRC) 
+$(OBJ): $(SRC) $(LIBSRC) printf.h libft/libft.h 
+	gcc $(FLAGS) -c $(SRC) $(LIBSRC)
 
 clean:
 	rm -f $(OBJ)
@@ -41,6 +46,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re testing
-testing:
-	gcc $(FLAGS) -o testing -g main.c ft_printf.c $(SRC)
-
+testing: $(NAME)
+	gcc $(FLAGS) -o testing -g main2.c $(NAME)

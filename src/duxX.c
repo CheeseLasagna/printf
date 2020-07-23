@@ -11,7 +11,7 @@ void	combine_fduxX(struct flags fs, char fill, char *strarg)
 		}
 		print_space(fs.wd, fill);
 	}
-	if (strarg[0] == '-')
+	if (*strarg == '-')
 	{
 		write (1, "-", 1);
 		strarg++;
@@ -35,13 +35,22 @@ void	dec(struct flags fs, va_list argptr, int *count)
 
 	fill = ' ';
 	arg = va_arg(argptr, int);
-	strarg = ft_itoa(arg);
+	if (fs.pr == 0 && arg == 0 && fs.strchk == 1)
+		strarg = ft_strdup(""); 
+	else
+		strarg = ft_itoa(arg);
 	if (fs.pr || fs.ps)
 		fs.sz = 0;
 	if (fs.sz)
 		fill = '0';
 	len = ft_strlen(strarg);
 	fs.pr = dec_prec(fs.pr, strarg, len);
+	if (fs.wd < 0)
+	{
+		fill = ' ';
+		fs.ps = 1;
+		fs.wd = fs.wd * -1;
+	}
 	if (fs.wd > len + fs.pr)
 		fs.wd = fs.wd - len - fs.pr;
 	else
@@ -59,7 +68,10 @@ void	uns(struct flags fs, va_list argptr, int *count)
 	int len;
 
 	arg = va_arg(argptr, unsigned int);
-	strarg = ft_itoaun(arg);
+	if (fs.pr == 0 && arg == 0 && fs.strchk == 1)
+		strarg = ft_strdup(""); 
+	else
+		strarg = ft_itoaun(arg);
 	if (fs.pr || fs.ps)
 		fs.sz = 0;
 	if (fs.sz)
@@ -88,7 +100,10 @@ void	hexB(struct flags fs, va_list argptr, int *count)
 	int len;
 
 	arg = va_arg(argptr, unsigned int);
-	strarg = ft_itoahex(arg, 1);
+	if (fs.pr == 0 && arg == 0 && fs.strchk == 1)
+		strarg = ft_strdup(""); 
+	else
+		strarg = ft_itoahex(arg, 1);
 	if (fs.pr || fs.ps)
 		fs.sz = 0;
 	if (fs.sz)
@@ -117,7 +132,10 @@ void	hexS(struct flags fs, va_list argptr, int *count)
 	int len;
 
 	arg = va_arg(argptr, unsigned int);
-	strarg = ft_itoahex(arg, 0);
+	if (fs.pr == 0 && arg == 0 && fs.strchk == 1)
+		strarg = ft_strdup(""); 
+	else
+		strarg = ft_itoahex(arg, 0);
 	if (fs.pr || fs.ps)
 		fs.sz = 0;
 	if (fs.sz)

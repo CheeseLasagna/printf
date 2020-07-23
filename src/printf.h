@@ -6,7 +6,7 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 20:46:15 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/08 15:25:21 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/22 15:15:48 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ void	hexB(struct flags fs, va_list argptr, int *count);
 
 void	print_char(struct flags fs, va_list argptr, int *count);
 void	print_str(struct flags fs, va_list argptr, int *count);
+void	print_str2(struct flags fs, char *str, char fill);
+int		str_null(struct flags fs, int *count);
 void	print_space(int wd, char fill);
 void	print_adr(struct flags fs, va_list argptr, int *count);
+int		adr_null(struct flags fs, int *count);
 int		dec_prec(int precision, char *strarg, int len);
 
 int		ft_printf(const char *s, ...);
