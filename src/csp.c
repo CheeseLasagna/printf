@@ -1,20 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   csp.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/23 16:40:44 by tlavelle          #+#    #+#             */
+/*   Updated: 2020/07/23 18:42:28 by tlavelle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "printf.h"
 
-int		dec_prec(int precision, char *strarg, int len)
-{
-	if (strarg[0] == '-')
-	{
-		if (precision > len - 1)
-			precision = precision - len + 1;
-		else
-			precision = 0;
-	}
-	else if (precision > len)
-		precision = precision - len;
-	else
-		precision = 0;
-	return (precision);
-}
 void	print_space(int wd, char fill)
 {
 	while (wd)
@@ -24,24 +21,24 @@ void	print_space(int wd, char fill)
 	}
 }
 
-void	print_char(struct flags fs, va_list argptr, int *count)
+void	print_char(struct s_flags fs, va_list argptr, int *count)
 {
 	char c;
 	char fill;
-	
+
 	fill = ' ';
 	if (fs.wd)
-		fs.wd = fs.wd - 1;	
+		fs.wd = fs.wd - 1;
 	c = va_arg(argptr, int);
 	if (!fs.ps)
 		print_space(fs.wd, fill);
-	write (1, &c, 1);
+	write(1, &c, 1);
 	if (fs.ps)
 		print_space(fs.wd, fill);
 	*count = *count + fs.wd + 1;
 }
 
-void	print_str2(struct flags fs, char *str, char fill)
+void	print_str2(struct s_flags fs, char *str, char fill)
 {
 	if (!fs.ps)
 		print_space(fs.wd, fill);
@@ -51,18 +48,18 @@ void	print_str2(struct flags fs, char *str, char fill)
 		print_space(fs.wd, fill);
 }
 
-void	print_str(struct flags fs, va_list argptr, int *count)
+void	print_str(struct s_flags fs, va_list argptr, int *count)
 {
-	char *c;
-	char fill;
-	int len;
+	char	*c;
+	char	fill;
+	int		len;
 
 	fill = ' ';
 	c = va_arg(argptr, char *);
 	len = ft_strlen(c);
 	if (c == NULL)
 	{
-		*count = str_null(fs, count); 
+		*count = str_null(fs, count);
 		return ;
 	}
 	if (fs.pr > len || (fs.pr == 0 && !fs.strchk) || fs.pr < 0)
@@ -80,20 +77,18 @@ void	print_str(struct flags fs, va_list argptr, int *count)
 	print_str2(fs, c, fill);
 }
 
-void print_adr(struct flags fs, va_list argptr, int *count)
+void	print_adr(struct s_flags fs, va_list argptr, int *count)
 {
-	long unsigned int arg;
-	char *strarg;
-	int len;
-	char fill;
+	long unsigned int	arg;
+	char				*strarg;
+	int					len;
 
-	fill = ' ';
 	arg = va_arg(argptr, long unsigned int);
 	strarg = ft_itoahex(arg, 0);
 	if (*strarg == '0')
 	{
 		*count = adr_null(fs, count);
-		free (strarg);
+		free(strarg);
 		return ;
 	}
 	len = ft_strlen(strarg);
@@ -101,12 +96,12 @@ void print_adr(struct flags fs, va_list argptr, int *count)
 		fs.wd = fs.wd - len - 2;
 	else
 		fs.wd = 0;
-	if(!fs.ps)
-		print_space(fs.wd, fill);
+	if (!fs.ps)
+		print_space(fs.wd, ' ');
 	write(1, "0x", 2);
 	write(1, strarg, ft_strlen(strarg));
 	if (fs.ps)
-		print_space(fs.wd, fill);
-	free(strarg);	
+		print_space(fs.wd, ' ');
+	free(strarg);
 	*count = *count + fs.wd + 2 + len;
 }

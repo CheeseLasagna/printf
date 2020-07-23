@@ -1,10 +1,11 @@
 NAME = libftprintf.a
 
-FLAGS = -Wall -Wextra 
+FLAGS = -Wall -Wextra -Werror
 
 SRC = src/calc_flags.c\
 	src/csp.c\
-	src/duxX.c\
+	src/dec_uns_hex.c\
+	src/dec_uns_hex2.c\
 	src/null.c\
 	ft_printf.c
 
@@ -18,7 +19,8 @@ LIBSRC = libft/ft_atoi.c\
 
 OBJ = calc_flags.o\
 	csp.o\
-	duxX.o\
+	dec_uns_hex.o\
+	dec_uns_hex2.o\
 	null.o\
 	ft_atoi.o\
 	ft_strlen.o\
@@ -47,4 +49,4 @@ re: fclean all
 
 .PHONY: all clean fclean re testing
 testing: $(NAME)
-	gcc $(FLAGS) -o testing -g main2.c $(NAME)
+	gcc $(FLAGS) -o testing -g main.c $(NAME)

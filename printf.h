@@ -6,25 +6,25 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 20:46:15 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/22 15:15:48 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/23 18:40:32 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINTF_H
 # define PRINTF_H
 
-#include <stdlib.h>
-#include <stdarg.h>
-#include <unistd.h>
-#include <string.h>
+# include <stdlib.h>
+# include <stdarg.h>
+# include <unistd.h>
+# include <string.h>
 
-struct flags{
+struct	s_flags{
 	int wd;
 	int pr;
 	int ps;
 	int sz;
 	int strchk;
-};	
+};
 
 void	ft_putchar_fd(char c, int fd);
 size_t	ft_strlen(const char *s);
@@ -40,19 +40,22 @@ int		ft_precision(const char *s, va_list argptr, int *szptr, int *strchk);
 int		ft_width(const char *s, va_list argptr);
 int		ft_spacezero(const char *s);
 
-void	dec(struct flags fs, va_list argptr, int *count);
-void	uns(struct flags fs, va_list argptr, int *count);
-void	hexS(struct flags fs, va_list argptr, int *count);
-void	hexB(struct flags fs, va_list argptr, int *count);
-
-void	print_char(struct flags fs, va_list argptr, int *count);
-void	print_str(struct flags fs, va_list argptr, int *count);
-void	print_str2(struct flags fs, char *str, char fill);
-int		str_null(struct flags fs, int *count);
-void	print_space(int wd, char fill);
-void	print_adr(struct flags fs, va_list argptr, int *count);
-int		adr_null(struct flags fs, int *count);
+void	dec(struct s_flags fs, va_list argptr, int *count);
+void	uns(struct s_flags fs, va_list argptr, int *count);
+void	hexs(struct s_flags fs, va_list argptr, int *count);
+void	hexb(struct s_flags fs, va_list argptr, int *count);
+void	dec_ext(struct s_flags fs, int *count, char *strarg);
+void	uns_hex_ext(struct s_flags fs, int *count, char *strarg);
+void	print_dec_uns_hex(struct s_flags fs, char fill, char *strarg);
 int		dec_prec(int precision, char *strarg, int len);
+
+void	print_char(struct s_flags fs, va_list argptr, int *count);
+void	print_str(struct s_flags fs, va_list argptr, int *count);
+void	print_str2(struct s_flags fs, char *str, char fill);
+int		str_null(struct s_flags fs, int *count);
+void	print_space(int wd, char fill);
+void	print_adr(struct s_flags fs, va_list argptr, int *count);
+int		adr_null(struct s_flags fs, int *count);
 
 int		ft_printf(const char *s, ...);
 #endif

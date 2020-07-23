@@ -6,36 +6,38 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 17:27:23 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/08 22:23:06 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/23 18:54:47 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-const char *adjust_flags(struct flags fs, va_list argptr, const char *s, int *count)
+const char	*adjust_flags(struct s_flags fs, va_list argptr, const char *s,
+																int *count)
 {
-	while (*s != 'c' && *s != 's' && *s != 'p' && *s != 'd' && *s != 'i' &&	*s != 'u' && *s != 'x' && *s != 'X') 
+	while (*s != 'c' && *s != 's' && *s != 'p' && *s != 'd' && *s != 'i' &&
+										*s != 'u' && *s != 'x' && *s != 'X')
 		s++;
 	if (*s == 'd' || *s == 'i')
-		dec(fs, argptr, count);	
+		dec(fs, argptr, count);
 	else if (*s == 'u')
-		uns(fs, argptr, count);	
+		uns(fs, argptr, count);
 	else if (*s == 'x')
-		hexS(fs, argptr, count);	
+		hexs(fs, argptr, count);
 	else if (*s == 'X')
-		hexB(fs, argptr, count);	
+		hexb(fs, argptr, count);
 	else if (*s == 'c')
 		print_char(fs, argptr, count);
 	else if (*s == 's')
 		print_str(fs, argptr, count);
 	else if (*s == 'p')
-		print_adr(fs, argptr, count);	
+		print_adr(fs, argptr, count);
 	return (s);
 }
 
 const char	*get_flags(const char *s, va_list argptr, int *count)
 {
-	struct flags fs;
+	struct s_flags fs;
 
 	fs.strchk = 0;
 	fs.sz = ft_spacezero(s);
@@ -44,8 +46,9 @@ const char	*get_flags(const char *s, va_list argptr, int *count)
 	fs.pr = ft_precision(s, argptr, &fs.sz, &fs.strchk);
 	s = adjust_flags(fs, argptr, s, count);
 	return (s);
-}	
-const char *rezat(const char *s, va_list argptr, int *count)
+}
+
+const char	*rezat(const char *s, va_list argptr, int *count)
 {
 	if (*s == '%')
 	{
@@ -55,12 +58,12 @@ const char *rezat(const char *s, va_list argptr, int *count)
 	else
 		s = get_flags(s, argptr, count);
 	return (s);
-}	
+}
 
-int	ft_printf(const char *s, ...)
+int			ft_printf(const char *s, ...)
 {
-	va_list argptr;
-	int count;
+	va_list	argptr;
+	int		count;
 
 	count = 0;
 	va_start(argptr, s);

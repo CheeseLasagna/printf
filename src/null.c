@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   null.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/23 16:32:10 by tlavelle          #+#    #+#             */
+/*   Updated: 2020/07/23 18:44:02 by tlavelle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "printf.h"
 
-int	str_null(struct flags fs, int *count)
+int	str_null(struct s_flags fs, int *count)
 {
-	int len;
-	char *str;
+	int		len;
+	char	*str;
 
 	len = 6;
 	str = "";
@@ -27,10 +39,10 @@ int	str_null(struct flags fs, int *count)
 	return (*count);
 }
 
-int adr_null(struct flags fs, int *count)
+int	adr_null(struct s_flags fs, int *count)
 {
-	char *str;
-	int len;
+	char	*str;
+	int		len;
 
 	str = "(nil)";
 	len = 5;
@@ -38,7 +50,7 @@ int adr_null(struct flags fs, int *count)
 		fs.wd = fs.wd - len;
 	else
 		fs.wd = 0;
-	if(!fs.ps)
+	if (!fs.ps)
 		print_space(fs.wd, ' ');
 	write(1, str, 5);
 	if (fs.ps)
@@ -46,5 +58,3 @@ int adr_null(struct flags fs, int *count)
 	*count = *count + fs.wd + 5;
 	return (*count);
 }
-	
-		
