@@ -6,7 +6,7 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:40:44 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/23 18:42:28 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/27 13:33:38 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,12 @@ void	print_adr(struct s_flags fs, va_list argptr, int *count)
 
 	arg = va_arg(argptr, long unsigned int);
 	strarg = ft_itoahex(arg, 0);
-	if (*strarg == '0')
-	{
-		*count = adr_null(fs, count);
-		free(strarg);
-		return ;
-	}
 	len = ft_strlen(strarg);
+	if (fs.wd < 0)
+	{
+		fs.ps = 1;
+		fs.wd = fs.wd * -1;
+	}
 	if (fs.wd > len + 2)
 		fs.wd = fs.wd - len - 2;
 	else

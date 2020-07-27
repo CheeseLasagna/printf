@@ -6,7 +6,7 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 17:27:23 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/23 18:54:47 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/27 13:19:00 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ const char	*adjust_flags(struct s_flags fs, va_list argptr, const char *s,
 																int *count)
 {
 	while (*s != 'c' && *s != 's' && *s != 'p' && *s != 'd' && *s != 'i' &&
-										*s != 'u' && *s != 'x' && *s != 'X')
+							*s != 'u' && *s != 'x' && *s != 'X' && *s != '%')
 		s++;
 	if (*s == 'd' || *s == 'i')
 		dec(fs, argptr, count);
@@ -32,6 +32,11 @@ const char	*adjust_flags(struct s_flags fs, va_list argptr, const char *s,
 		print_str(fs, argptr, count);
 	else if (*s == 'p')
 		print_adr(fs, argptr, count);
+	else if (*s == '%')
+	{
+		write(1, "%", 1);
+		*count = *count + 1;
+	}
 	return (s);
 }
 

@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/07/23 19:34:58 by tlavelle          #+#    #+#              #
+#    Updated: 2020/07/23 19:35:00 by tlavelle         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = libftprintf.a
 
 FLAGS = -Wall -Wextra -Werror
@@ -48,5 +60,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re testing
-testing: $(NAME)
-	gcc $(FLAGS) -o testing -g main.c $(NAME)

@@ -6,7 +6,7 @@
 /*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 20:46:15 by tlavelle          #+#    #+#             */
-/*   Updated: 2020/07/23 18:40:32 by tlavelle         ###   ########.fr       */
+/*   Updated: 2020/07/27 13:45:29 by tlavelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	print_str2(struct s_flags fs, char *str, char fill);
 int		str_null(struct s_flags fs, int *count);
 void	print_space(int wd, char fill);
 void	print_adr(struct s_flags fs, va_list argptr, int *count);
-int		adr_null(struct s_flags fs, int *count);
 
 int		ft_printf(const char *s, ...);
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoaun.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlavelle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/23 19:29:07 by tlavelle          #+#    #+#             */
+/*   Updated: 2020/07/23 19:29:19 by tlavelle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 int		lenun(unsigned int n)
@@ -17,8 +29,8 @@ int		lenun(unsigned int n)
 
 char	*ft_itoaun(unsigned int n)
 {
-	char *ptr;
-	int len;
+	char	*ptr;
+	int		len;
 
 	len = lenun(n);
 	ptr = (char*)malloc(sizeof(char) * (len + 1));
